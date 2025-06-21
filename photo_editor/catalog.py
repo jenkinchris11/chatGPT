@@ -36,4 +36,3 @@ class MultiCatalog:
 
     def __iter__(self) -> Iterable[Image.Image]:
         yield from self.images
-

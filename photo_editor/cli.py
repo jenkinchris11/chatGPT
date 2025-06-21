@@ -17,11 +17,16 @@ from .editor import (
 from .presets import Preset, PresetLibrary
 from .ai import AIEngine
 from .social import share, add_platform
+from .catalog import Catalog
+from .editor import Editor, brighten, denoise, apply_hsl
+from .presets import Preset, PresetLibrary
+from .ai import AIEngine
 
 
 def parse_args() -> argparse.Namespace:
     p = argparse.ArgumentParser(description="Minimal Photo Editor")
     p.add_argument("catalog", nargs="+", type=Path, help="Path(s) to image folder")
+    p.add_argument("catalog", type=Path, help="Path to image folder")
     p.add_argument("--output", type=Path, default=Path("output"), help="Output folder")
     p.add_argument("--preset", type=str, help="Apply preset by name")
     p.add_argument("--brightness", type=float, default=1.0, help="Brightness factor")
@@ -57,6 +62,10 @@ def main() -> None:
 
     preset_folder = args.catalog[0] if len(args.catalog) == 1 else args.catalog[0]
     presets = PresetLibrary(folder=preset_folder / "presets")
+    catalog = Catalog(path=args.catalog)
+    catalog.load()
+
+    presets = PresetLibrary(folder=args.catalog / "presets")
     presets.load()
 
     engine = AIEngine()
@@ -80,6 +89,8 @@ def main() -> None:
                 editor.apply(brighten, suggestions["brightness"])
             if suggestions.get("denoise") and not args.denoise:
                 editor.apply(denoise)
+    for idx, image in enumerate(catalog):
+        editor = Editor(image=image)
         if args.preset and args.preset in presets.presets:
             preset = presets.presets[args.preset]
             if "brightness" in preset.settings:
@@ -111,6 +122,10 @@ def main() -> None:
         print(f"Saved {out_path} with hashtags: {' '.join(tags)}")
         if args.share:
             share(out_path, [p.strip() for p in args.share.split(',')])
+        out_path = args.output / f"image_{idx}.jpg"
+        editor.save(out_path)
+        tags = assistant.suggest_hashtags("sample photo")
+        print(f"Saved {out_path} with hashtags: {' '.join(tags)}")
 
 
 if __name__ == "__main__":

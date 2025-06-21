@@ -50,6 +50,7 @@ class Assistant:
         ]
 
 
+
 @dataclass
 class AIEngine:
     assistants: Dict[str, Assistant] = field(default_factory=dict)

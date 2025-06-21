@@ -10,4 +10,10 @@ from .catalog import Catalog, MultiCatalog
 __all__ = [
     "Catalog",
     "MultiCatalog",
+=======
+__all__ = [
+    "catalog",
+    "editor",
+    "presets",
+    "ai",
 ]

@@ -5,6 +5,7 @@ from pathlib import Path
 from typing import List, Optional
 
 from PIL import Image, ImageEnhance, ImageFilter, ImageDraw
+from PIL import Image, ImageEnhance, ImageFilter
 
 
 def brighten(image: Image.Image, factor: float = 1.2) -> Image.Image:
@@ -46,7 +47,6 @@ def mask_brighten(
     bright = enhancer.enhance(factor)
     return Image.composite(bright, image, mask)
 
-
 def save(image: Image.Image, path: Path) -> None:
     image.save(path)
 
@@ -63,6 +63,7 @@ class Editor:
     metadata: dict = field(default_factory=dict)
     edited: bool = False
 
+
     def apply(self, func, *args, **kwargs):
         self.image = func(self.image, *args, **kwargs)
         self.history.edits.append(func.__name__)
@@ -76,6 +77,7 @@ class Editor:
 
     def add_metadata(self, key: str, value: str) -> None:
         self.metadata[key] = value
+
 
     def save(self, path: Path) -> None:
         save(self.image, path)
