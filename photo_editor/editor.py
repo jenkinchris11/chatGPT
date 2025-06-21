@@ -2,10 +2,9 @@
 
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import List, Optional
+from typing import List
 
 from PIL import Image, ImageEnhance, ImageFilter, ImageDraw
-from PIL import Image, ImageEnhance, ImageFilter
 
 
 def brighten(image: Image.Image, factor: float = 1.2) -> Image.Image:
