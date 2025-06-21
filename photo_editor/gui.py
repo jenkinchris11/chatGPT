@@ -26,8 +26,16 @@ class EditorApp(tk.Tk):
     def _build_ui(self) -> None:
         top = ttk.Frame(self)
         top.pack(pady=5)
-        ttk.Button(top, text="Open Folder", command=self.open_folder).pack(side=tk.LEFT, padx=5)
-        ttk.Button(top, text="Save As...", command=self.save_image).pack(side=tk.LEFT)
+        ttk.Button(
+            top,
+            text="Open Folder",
+            command=self.open_folder,
+        ).pack(side=tk.LEFT, padx=5)
+        ttk.Button(
+            top,
+            text="Save As...",
+            command=self.save_image,
+        ).pack(side=tk.LEFT)
 
         self.image_label = ttk.Label(self)
         self.image_label.pack(expand=True)
@@ -36,15 +44,37 @@ class EditorApp(tk.Tk):
         controls.pack(fill=tk.X, padx=10, pady=5)
         ttk.Label(controls, text="Brightness").pack(anchor=tk.W)
         self.brightness = tk.DoubleVar(value=1.0)
-        ttk.Scale(controls, from_=0.5, to=1.5, orient=tk.HORIZONTAL, variable=self.brightness).pack(fill=tk.X)
+        ttk.Scale(
+            controls,
+            from_=0.5,
+            to=1.5,
+            orient=tk.HORIZONTAL,
+            variable=self.brightness,
+        ).pack(fill=tk.X)
         self.denoise_var = tk.IntVar(value=0)
-        ttk.Checkbutton(controls, text="Denoise", variable=self.denoise_var).pack(anchor=tk.W)
-        ttk.Button(controls, text="Apply", command=self.apply_edits).pack(pady=4)
+        ttk.Checkbutton(
+            controls,
+            text="Denoise",
+            variable=self.denoise_var,
+        ).pack(anchor=tk.W)
+        ttk.Button(
+            controls,
+            text="Apply",
+            command=self.apply_edits,
+        ).pack(pady=4)
 
         nav = ttk.Frame(self)
         nav.pack(pady=5)
-        ttk.Button(nav, text="<< Prev", command=self.prev_image).grid(row=0, column=0, padx=5)
-        ttk.Button(nav, text="Next >>", command=self.next_image).grid(row=0, column=1, padx=5)
+        ttk.Button(
+            nav,
+            text="<< Prev",
+            command=self.prev_image,
+        ).grid(row=0, column=0, padx=5)
+        ttk.Button(
+            nav,
+            text="Next >>",
+            command=self.next_image,
+        ).grid(row=0, column=1, padx=5)
 
     def open_folder(self) -> None:
         folder = filedialog.askdirectory()

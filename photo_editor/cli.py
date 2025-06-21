@@ -14,19 +14,44 @@ from .editor import (
     overlay_image,
     mask_brighten,
 )
-from .presets import Preset, PresetLibrary
+from .presets import PresetLibrary
 from .ai import AIEngine
 from .social import share, add_platform
 
 
 def parse_args() -> argparse.Namespace:
     p = argparse.ArgumentParser(description="Minimal Photo Editor")
-    p.add_argument("catalog", nargs="+", type=Path, help="Path(s) to image folder")
-    p.add_argument("--output", type=Path, default=Path("output"), help="Output folder")
+    p.add_argument(
+        "catalog",
+        nargs="+",
+        type=Path,
+        help="Path(s) to image folder",
+    )
+    p.add_argument(
+        "--output",
+        type=Path,
+        default=Path("output"),
+        help="Output folder",
+    )
     p.add_argument("--preset", type=str, help="Apply preset by name")
-    p.add_argument("--brightness", type=float, default=1.0, help="Brightness factor")
-    p.add_argument("--denoise", action="store_true", help="Apply simple denoise")
-    p.add_argument("--hsl", nargs=3, type=float, metavar=("H", "S", "L"), help="HSL adjustments")
+    p.add_argument(
+        "--brightness",
+        type=float,
+        default=1.0,
+        help="Brightness factor",
+    )
+    p.add_argument(
+        "--denoise",
+        action="store_true",
+        help="Apply simple denoise",
+    )
+    p.add_argument(
+        "--hsl",
+        nargs=3,
+        type=float,
+        metavar=("H", "S", "L"),
+        help="HSL adjustments",
+    )
     p.add_argument("--assistant", type=str, help="Use AI assistant by name")
     p.add_argument("--overlay", type=Path, help="Overlay image path")
     p.add_argument(
@@ -37,11 +62,28 @@ def parse_args() -> argparse.Namespace:
         help="Brighten region X Y W H by factor F",
     )
     p.add_argument("--share", type=str, help="Comma separated platforms")
-    p.add_argument("--add-platform", nargs=3, metavar=("NAME", "W", "H"), help="Add custom platform")
+    p.add_argument(
+        "--add-platform",
+        nargs=3,
+        metavar=("NAME", "W", "H"),
+        help="Add custom platform",
+    )
     p.add_argument("--metadata", type=str, help="Description for metadata")
-    p.add_argument("--filter", choices=["edited", "unedited"], help="Filter images")
-    p.add_argument("--auto-suggest", action="store_true", help="Apply assistant suggestions")
-    p.add_argument("--ask", action="store_true", help="Show assistant questions")
+    p.add_argument(
+        "--filter",
+        choices=["edited", "unedited"],
+        help="Filter images",
+    )
+    p.add_argument(
+        "--auto-suggest",
+        action="store_true",
+        help="Apply assistant suggestions",
+    )
+    p.add_argument(
+        "--ask",
+        action="store_true",
+        help="Show assistant questions",
+    )
     return p.parse_args()
 
 
@@ -51,9 +93,12 @@ def main() -> None:
 
     if len(args.catalog) == 1:
         catalog = Catalog(path=args.catalog[0])
+        preset_folder = args.catalog[0]
     else:
         catalog = MultiCatalog(paths=args.catalog)
+        preset_folder = args.catalog[0]
     catalog.load()
+
 
     preset_folder = args.catalog[0]
     presets = PresetLibrary(folder=preset_folder / "presets")
@@ -90,8 +135,8 @@ def main() -> None:
         if args.denoise:
             editor.apply(denoise)
         if args.hsl:
-            h, s, l = args.hsl
-            editor.apply(apply_hsl, h, s, l)
+            h, s, lightness = args.hsl
+            editor.apply(apply_hsl, h, s, lightness)
         if args.overlay:
             overlay = Image.open(args.overlay)
             editor.apply(overlay_image, overlay)
