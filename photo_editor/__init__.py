@@ -9,4 +9,6 @@ __all__ = [
     "editor",
     "presets",
     "ai",
+    "social",
+    "MultiCatalog",
 ]

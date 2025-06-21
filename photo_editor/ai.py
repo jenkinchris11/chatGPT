@@ -14,6 +14,11 @@ class Assistant:
         words = [w.strip("#") for w in text.split() if len(w) > 3]
         return [f"#{w.lower()}" for w in words[:5]]
 
+    def create_metadata(self, description: str) -> Dict[str, str]:
+        """Generate fake metadata based on description."""
+        tags = ",".join(self.suggest_hashtags(description))
+        return {"Description": description, "Tags": tags}
+
 
 @dataclass
 class AIEngine:
