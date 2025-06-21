@@ -55,12 +55,8 @@ def main() -> None:
         catalog = MultiCatalog(paths=args.catalog)
     catalog.load()
 
-    preset_folder = args.catalog[0] if len(args.catalog) == 1 else args.catalog[0]
+    preset_folder = args.catalog[0]
     presets = PresetLibrary(folder=preset_folder / "presets")
-    catalog = Catalog(path=args.catalog)
-    catalog.load()
-
-    presets = PresetLibrary(folder=args.catalog / "presets")
     presets.load()
 
     engine = AIEngine()
