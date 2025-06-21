@@ -99,6 +99,8 @@ def main() -> None:
         preset_folder = args.catalog[0]
     catalog.load()
 
+
+    preset_folder = args.catalog[0]
     presets = PresetLibrary(folder=preset_folder / "presets")
     presets.load()
 
