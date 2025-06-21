@@ -16,4 +16,3 @@ def load_images_from_folder(folder: Path) -> Iterable[Image.Image]:
                 yield Image.open(path)
             except Exception:
                 continue
-

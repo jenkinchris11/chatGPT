@@ -27,8 +27,8 @@ class Assistant:
         avg = stats.mean[0]
         # crude noise estimate: average absolute deviation from median filter
         median = image.filter(ImageFilter.MedianFilter(3))
-        diff = ImageStat.Stat(ImageChops.difference(image, median).convert("L"))
-        noise = diff.mean[0]
+        diff_img = ImageChops.difference(image, median).convert("L")
+        noise = ImageStat.Stat(diff_img).mean[0]
         return {"avg_brightness": avg, "noise": noise}
 
     def suggest_edit_settings(self, image: Image.Image) -> Dict[str, Any]:
@@ -48,7 +48,6 @@ class Assistant:
             "Do you prefer vibrant or muted colors?",
             "Should the results look natural or highly stylized?",
         ]
-
 
 
 @dataclass
