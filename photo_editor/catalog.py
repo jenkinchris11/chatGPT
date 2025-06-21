@@ -2,7 +2,7 @@
 
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import List, Iterable
+from typing import List, Iterable, Sequence
 
 from PIL import Image
 
@@ -21,3 +21,18 @@ class Catalog:
     def __iter__(self) -> Iterable[Image.Image]:
         yield from self.images
 
+
+@dataclass
+class MultiCatalog:
+    """Combine several catalogs into one."""
+
+    paths: Sequence[Path]
+    images: List[Image.Image] = field(default_factory=list)
+
+    def load(self) -> None:
+        self.images.clear()
+        for path in self.paths:
+            self.images.extend(utils.load_images_from_folder(path))
+
+    def __iter__(self) -> Iterable[Image.Image]:
+        yield from self.images
