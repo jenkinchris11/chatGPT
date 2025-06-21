@@ -19,6 +19,7 @@ professional tools like Photoshop or Lightroom.
 - Apply basic edits such as brightness, denoise and HSL adjustments
 - Save and load presets
 - Simple AI assistant that can suggest hashtags
+- Sleek GUI for interactive editing
 
 ## Usage
 
@@ -39,6 +40,14 @@ AI assistant. Add `--ask` to display stylistic questions before processing:
 
 ```
 python -m photo_editor.cli folder --auto-suggest --ask
+```
+
+### Graphical interface
+
+You can also launch a simple GUI to manually preview and edit images:
+
+```
+python -m photo_editor.gui
 ```
 
 Presets are stored in a `presets` folder inside the catalog directory as JSON
